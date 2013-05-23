@@ -23,8 +23,8 @@ exports.doReg = function(req, res) {
     console.log('两次输入的口令不一致');
     return res.redirect('/reg');
   }
-  var md5 = crypto.createHash('md5');
-  var password = md5.update(req.body.password).digest('base64');
+  var md5 = crypto.createHash('md5'),
+      password = md5.update(req.body.password).digest('base64');
   var newUser = new User({
     name: req.body.username,
     password: password
@@ -34,13 +34,16 @@ exports.doReg = function(req, res) {
       err = '用户已存在';
     }
     if(err){
+      console.log(err);
       return res.redirect('/reg');
     }
     newUser.save(function(err){
       if(err){
+        console.log(err);
         return res.redirect('/reg');
       }
       req.session.user = newUser;
+      console.log('注册成功');
       res.redirect('/');
     });
   });

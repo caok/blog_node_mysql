@@ -5,8 +5,11 @@ block content
     h1= title
     p welcome to blog which based on nodejs
     p
-      a.btn.btn-primary.btn-large(href='/login') Login
-      a.btn.btn-large(href='/reg') Register
+      - if (locals.user)
+        a.btn.btn-primary.btn-large(href='logout') Logout
+      - else
+        a.btn.btn-primary.btn-large(href='/login') Login
+        a.btn.btn-large(href='/reg') Register
   .row
     .span4
       h2 Tom say:

@@ -19,10 +19,10 @@ User.prototype.save = function save(callback) {
 
 //几个路由共用，所以为静态方法
 User.get = function get(username, callback){
-  var query = username;
-  var sql = 'SELECT * FROM users WHERE `NAME`= '+ query;
+  //var query = username;
+  //var sql = 'SELECT name, password FROM users WHERE name= '+ query;
 
-  mysql.query(sql, function(err, rows, fields) {
+  mysql.query('SELECT name,password FROM users WHERE name = ?', [username], function(err, rows, fields) {
     if(err){
       callback(err);
     }

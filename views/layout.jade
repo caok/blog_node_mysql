@@ -18,10 +18,14 @@ html
             ul.nav
               li.active
                 a(href='/') Home
-              li
-                a(href='/login') Login
-              li
-                a(href='/reg') Register
+              - if (locals.user)
+                li
+                  a(href='logout') Logout
+              - else
+                li
+                  a(href='/login') Login
+                li
+                  a(href='/reg') Register
 
 
     #container.container
