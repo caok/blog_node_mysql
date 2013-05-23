@@ -3,6 +3,9 @@
  * GET home page.
  */
 
+var crypto = require('crypto'),
+    User = require('../models/user.js');
+
 exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
@@ -17,9 +20,30 @@ exports.reg = function(req, res) {
 
 exports.doReg = function(req, res) {
   if(req.body['password-repeat'] != req.body['password']){
-    console.log('error','两次输入的口令不一致');
+    console.log('两次输入的口令不一致');
     return res.redirect('/reg');
   }
+  var md5 = crypto.createHash('md5');
+  var password = md5.update(req.body.password).digest('base64');
+  var newUser = new User({
+    name: req.body.username,
+    password: password
+  });
+  User.get(newUser.name, function(err, user){
+    if(user){
+      err = '用户已存在';
+    }
+    if(err){
+      return res.redirect('/reg');
+    }
+    newUser.save(function(err){
+      if(err){
+        return res.redirect('/reg');
+      }
+      req.session.user = newUser;
+      res.redirect('/');
+    });
+  });
 };
 
 exports.login = function(req, res) {
@@ -27,9 +51,25 @@ exports.login = function(req, res) {
 };
 
 exports.doLogin = function(req, res) {
+  var md5 = crypto.createHash('md5'),
+      password = md5.update(req.body.password).digest('base64');
+  User.get(req.body.username, function(err, user){
+    if(!user){
+      console.log('用户不存在');
+      return res.redirect('/login');
+    }
+    if(user.password != password){
+      console.log('密码错误');
+      return res.redirect('/login');
+    }
+    req.session.user = user;
+    console.log('登陆成功');
+    res.redirect('/');
+  });
 };
 
 exports.logout = function(req, res) {
   req.session.user = null;
-  res.render('/', { title: '已退出' });
+  console.log('退出成功');
+  res.redirect('/');
 };
