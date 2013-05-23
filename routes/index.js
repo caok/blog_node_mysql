@@ -16,6 +16,10 @@ exports.reg = function(req, res) {
 };
 
 exports.doReg = function(req, res) {
+  if(req.body['password-repeat'] != req.body['password']){
+    console.log('error','两次输入的口令不一致');
+    return res.redirect('/reg');
+  }
 };
 
 exports.login = function(req, res) {
@@ -26,5 +30,6 @@ exports.doLogin = function(req, res) {
 };
 
 exports.logout = function(req, res) {
+  req.session.user = null;
   res.render('/', { title: '已退出' });
 };

@@ -19,8 +19,16 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.cookieParser());
+app.use(express.session({secret: 'keyboard cat'}));
+
+app.use(function(req, res, next){
+  res.locals.user = req.session.user ? req.session.user : null;
+  next();
+});
+
+app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {
