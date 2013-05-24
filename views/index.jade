@@ -11,12 +11,7 @@ block content
         a.btn.btn-primary.btn-large(href='/login') Login
         a.btn.btn-large(href='/reg') Register
   .row
-    .span4
-      h2 Tom say:
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-    .span4
-      h2 Jack say:
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-    .span4
-      h2 Amy say:
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+    for article in articles
+      .span4
+        h2= article.user
+        p= article.content

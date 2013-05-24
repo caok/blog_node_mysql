@@ -15,18 +15,19 @@ html
         .container
           a.brand(href='/') blog
           .nav-collapse
-            ul.nav
-              li.active
-                a(href='/') Home
+            ul.nav.pills.pull-right
               - if (locals.user)
-                li
-                  a(href='logout') Logout
+                li.dropdown
+                  a.dropdown-toggle(data-toggle='dropdown')= locals.user.name
+                    b.caret
+                  ul.dropdown-menu
+                    li
+                      a(href='logout') Logout
               - else
                 li
                   a(href='/login') Login
                 li
                   a(href='/reg') Register
-
 
     #container.container
       block content

@@ -1,19 +1,27 @@
-
-/*
- * GET home page.
- */
-
-var crypto = require('crypto'),
-    User = require('../models/user.js');
+var crypto  = require('crypto'),
+    User    = require('../models/user.js'),
+    Article = require('../models/article.js');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  Article.get(null, function(err, articles){
+    if(err){
+      articles = [];
+    }
+    res.render('index',{
+      title    : '主页',
+      user     : req.session.user,
+      articles : articles
+      //success  : req.flash('success').toString(),
+      //error    : req.flash('error').toString()
+    });
+  });
 };
 
-exports.post = function(req, res) {
+exports.article = function(req, res) {
 
 };
 
+// 注册
 exports.reg = function(req, res) {
   res.render('reg', { title: '注册' });
 };
@@ -49,6 +57,7 @@ exports.doReg = function(req, res) {
   });
 };
 
+// 登陆
 exports.login = function(req, res) {
   res.render('login', { title: '登陆' });
 };
@@ -71,6 +80,7 @@ exports.doLogin = function(req, res) {
   });
 };
 
+// 退出
 exports.logout = function(req, res) {
   req.session.user = null;
   console.log('退出成功');
