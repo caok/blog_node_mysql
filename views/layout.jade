@@ -32,11 +32,17 @@ html
                   a(href='/reg') 注册
 
     #container.container
+       #flash.container
+         - if (success)
+           .alert.alert-success= success
+         - if (error)
+            .alert alert-error= error
+
       block content
       hr
       footer
         p
-          a(href='http://caok1231.com') caok
+          a(href='http://caok1231.com', target='_blank') caok
 
   script(src='/javascripts/jquery-1.9.1.min.js')
   script(src='/javascripts/bootstrap.min.js')

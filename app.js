@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , flash = require('connect-flash');
 
 var app = express();
 
@@ -22,8 +23,11 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser());
 app.use(express.session({secret: 'keyboard cat'}));
+app.use(flash());
 
 app.use(function(req, res, next){
+  res.locals.error = req.flash('error').toString();
+  res.locals.success = req.flash('success').toString();
   res.locals.user = req.session.user ? req.session.user : null;
   next();
 });

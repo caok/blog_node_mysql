@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.2.4",
     "jade": "0.30.0",
-    "mysql": "2.0.0-alpha8"
+    "mysql": "2.0.0-alpha8",
+    "connect-flash": "0.1.1"
   }
 }
