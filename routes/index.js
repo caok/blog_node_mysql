@@ -12,8 +12,8 @@ exports.index = function(req, res){
       title    : '主页',
       user     : req.session.user,
       articles : articles
-      //success  : req.flash('success').toString(),
-      //error    : req.flash('error').toString()
+      success  : req.flash('success').toString(),
+      error    : req.flash('error').toString()
     });
   });
 };
@@ -24,15 +24,14 @@ exports.article = function(req, res) {
 };
 
 exports.doarticle = function(req, res) {
-  console.log('准备发表文章');
   var currentuser = req.session.user;
   article = new Article(currentuser.name, req.body.title, req.body.content);
   article.save(function(err){
     if(err){
-      console.log('发布失败!');
+      req.flash('error', '发布失败!');
       return res.redirect('/');
     }
-    console.log('发布成功!');
+    req.flash('success', '发布成功!');
     res.redirect('/');
   });
 };
@@ -41,10 +40,10 @@ exports.rmarticle = function(req, res) {
   var query = 'id = ' + req.params.id;
   Article.remove(query, function(err) {
     if(err){
-      console.log(err);
+      req.flash('error', err);
       return res.redirect('/');
     }
-    console.log('删除成功!');
+    req.flash('success', '删除成功!');
     res.redirect('/');
   });
 };
@@ -56,7 +55,7 @@ exports.reg = function(req, res) {
 
 exports.doReg = function(req, res) {
   if(req.body['password-repeat'] != req.body['password']){
-    console.log('两次输入的口令不一致');
+    req.flash('error', '两次输入的口令不一致');
     return res.redirect('/reg');
   }
   var md5 = crypto.createHash('md5'),
@@ -70,16 +69,16 @@ exports.doReg = function(req, res) {
       err = '用户已存在';
     }
     if(err){
-      console.log(err);
+      req.flash('error', err);
       return res.redirect('/reg');
     }
     newUser.save(function(err){
       if(err){
-        console.log(err);
+        req.flash('error', err);
         return res.redirect('/reg');
       }
       req.session.user = newUser;
-      console.log('注册成功');
+      req.flash('success', '注册成功');
       res.redirect('/');
     });
   });
@@ -95,15 +94,15 @@ exports.doLogin = function(req, res) {
       password = md5.update(req.body.password).digest('base64');
   User.get(req.body.username, function(err, user){
     if(!user){
-      console.log('用户不存在');
+      req.flash('error', '用户不存在');
       return res.redirect('/login');
     }
     if(user.password != password){
-      console.log('密码错误');
+      req.flash('error', '密码错误');
       return res.redirect('/login');
     }
     req.session.user = user;
-    console.log('登陆成功');
+    req.flash('success', '登陆成功');
     res.redirect('/');
   });
 };
@@ -111,6 +110,6 @@ exports.doLogin = function(req, res) {
 // 退出
 exports.logout = function(req, res) {
   req.session.user = null;
-  console.log('退出成功');
+  req.flash('success', '退出成功');
   res.redirect('/');
 };
