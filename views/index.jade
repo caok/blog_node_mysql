@@ -13,5 +13,6 @@ block content
   .row
     for article in articles
       .span4
-        h2= article.user
+        h3 #{article.user} say:
+        h4= article.title
         p= article.content

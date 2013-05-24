@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .container-fuild
+    form.form-horizontal(method = "post")
+      fieldset
+        legend 发表文章
+        .control-group
+          label.control-label(for = 'title') 标题
+          .controls
+            input#title.input-xlarge(name = 'title', type = 'text')
+        .control-group
+          label.control-label(for = 'content') 内容
+          .controls
+            textarea#content.text.span6(name='content', rows=10)
+        .form-actions
+          button(type='submit').btn.btn-primary 发表
+          button(href='/').btn 撤销

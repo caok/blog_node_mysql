@@ -2,6 +2,7 @@ var crypto  = require('crypto'),
     User    = require('../models/user.js'),
     Article = require('../models/article.js');
 
+// 主页
 exports.index = function(req, res){
   Article.get(null, function(err, articles){
     if(err){
@@ -17,8 +18,24 @@ exports.index = function(req, res){
   });
 };
 
+// 文章
 exports.article = function(req, res) {
+  res.render('article', { title: '发表' });
+};
 
+exports.doarticle = function(req, res) {
+  console.log('准备发表文章');
+  var currentuser = req.session.user;
+  console.log(currentuser.name);
+  article = new Article(currentuser.name, req.body.title, req.body.content);
+  article.save(function(err){
+    if(err){
+      console.log('发布失败!');
+      return res.redirect('/');
+    }
+    console.log('发布成功!');
+    res.redirect('/');
+  });
 };
 
 // 注册

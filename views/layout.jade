@@ -22,12 +22,14 @@ html
                     b.caret
                   ul.dropdown-menu
                     li
-                      a(href='logout') Logout
+                      a(href='/article') 发表
+                    li
+                      a(href='/logout') 退出
               - else
                 li
-                  a(href='/login') Login
+                  a(href='/login') 登录
                 li
-                  a(href='/reg') Register
+                  a(href='/reg') 注册
 
     #container.container
       block content
