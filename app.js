@@ -39,6 +39,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/article', routes.article);
 app.post('/article', routes.doarticle);
+app.get('/remove/:id', routes.rmarticle);
 app.get('/reg', routes.reg);
 app.post('/reg', routes.doReg);
 app.get('/login', routes.login);

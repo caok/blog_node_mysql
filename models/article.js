@@ -1,10 +1,6 @@
 var mysql = require('./db');
 
 function Article(username, title, content, happened_at) {
-  console.log(username);
-  console.log(title);
-  console.log(content);
-  console.log(happened_at);
   this.user    = username;
   this.title   = title;
   this.content = content;
@@ -13,10 +9,6 @@ function Article(username, title, content, happened_at) {
   } else {
     this.happened_at = new Date();
   }
-  console.log(this.user);
-  console.log(this.title);
-  console.log(this.content);
-  console.log(this.happened_at);
 }
 
 Article.prototype.save = function save(callback) {
@@ -26,8 +18,7 @@ Article.prototype.save = function save(callback) {
     content     : this.content,
     happened_at : this.happened_at
   };
-  console.log(article);
-  var query = mysql.query('INSERT INTO articles SET ?', article, function(err, result) {
+  var query = mysql.query('INSERT INTO `articles` SET ?', article, function(err, result) {
     if(err){
       callback(err);
     }
@@ -36,7 +27,7 @@ Article.prototype.save = function save(callback) {
 };
 
 Article.get = function get(query, callback){
-  var sql = 'SELECT * FROM articles' + (query ? (' WHERE ' + query) : '')
+  var sql = 'SELECT * FROM `articles`' + (query ? (' WHERE ' + query) : '')
 
   mysql.query(sql, function(err, rows, fields) {
     if(err){
@@ -48,6 +39,17 @@ Article.get = function get(query, callback){
     //});
     //rows.reverse();//倒序排列
     callback(err, rows);
+  });
+};
+
+//删
+Article.remove = function(query, callback) {
+  var sql = 'DELETE FROM  `articles` WHERE ' + query;
+  mysql.query(sql, function(err, result){
+    if (err) {
+      callback(err);
+    }
+    callback(err, result);
   });
 };
 

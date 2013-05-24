@@ -6,13 +6,15 @@ block content
     p welcome to blog which based on nodejs
     p
       - if (locals.user)
-        a.btn.btn-primary.btn-large(href='logout') Logout
+        a.btn.btn-success.btn-large(href='/article') 发表
+        a.btn.btn-warning.btn-large(href='/logout') 退出
       - else
-        a.btn.btn-primary.btn-large(href='/login') Login
-        a.btn.btn-large(href='/reg') Register
+        a.btn.btn-primary.btn-large(href='/login') 登录
+        a.btn.btn-large(href='/reg') 注册
   .row
     for article in articles
-      .span4
-        h3 #{article.user} say:
+      .span4.well
+        a.close(href="/remove/#{article.id}", data-dismiss='alert') &times;
         h4= article.title
         p= article.content
+        p.text-right ----#{article.user}

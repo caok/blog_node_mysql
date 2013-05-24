@@ -26,7 +26,6 @@ exports.article = function(req, res) {
 exports.doarticle = function(req, res) {
   console.log('准备发表文章');
   var currentuser = req.session.user;
-  console.log(currentuser.name);
   article = new Article(currentuser.name, req.body.title, req.body.content);
   article.save(function(err){
     if(err){
@@ -34,6 +33,18 @@ exports.doarticle = function(req, res) {
       return res.redirect('/');
     }
     console.log('发布成功!');
+    res.redirect('/');
+  });
+};
+
+exports.rmarticle = function(req, res) {
+  var query = 'id = ' + req.params.id;
+  Article.remove(query, function(err) {
+    if(err){
+      console.log(err);
+      return res.redirect('/');
+    }
+    console.log('删除成功!');
     res.redirect('/');
   });
 };
