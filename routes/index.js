@@ -20,10 +20,12 @@ module.exports = function (app) {
   });
 
   // 文章
+  app.get('/article', checkLogin);
   app.get('/article', function(req, res) {
     res.render('article', { title: '发表' });
   });
 
+  app.post('/article', checkLogin);
   app.post('/article', function(req, res) {
     var currentuser = req.session.user;
     article = new Article(currentuser.name, req.body.title, req.body.content);
@@ -37,6 +39,7 @@ module.exports = function (app) {
     });
   });
 
+  app.get('/remove/:id', checkLogin);
   app.get('/remove/:id', function(req, res) {
     var query = 'id = ' + req.params.id;
     Article.remove(query, function(err) {
@@ -50,10 +53,12 @@ module.exports = function (app) {
   });
 
   // 注册
+  app.get('/req', checkNotLogin);
   app.get('/reg', function(req, res) {
     res.render('reg', { title: '注册' });
   });
 
+  app.post('/req', checkNotLogin);
   app.post('/reg', function(req, res) {
     if(req.body['password-repeat'] != req.body['password']){
       req.flash('error', '两次输入的口令不一致');
@@ -86,10 +91,12 @@ module.exports = function (app) {
   });
 
   // 登陆
+  app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
     res.render('login', { title: '登陆' });
   });
 
+  app.post('/login', checkNotLogin);
   app.post('/login', function(req, res) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('base64');
@@ -110,6 +117,7 @@ module.exports = function (app) {
   });
 
   // 退出
+  app.get('/logout', checkLogin);
   app.get('/logout', function(req, res) {
     req.session.user = null;
     req.flash('success', '退出成功');
