@@ -11,7 +11,7 @@ exports.index = function(req, res){
     res.render('index',{
       title    : '主页',
       user     : req.session.user,
-      articles : articles
+      articles : articles,
       success  : req.flash('success').toString(),
       error    : req.flash('error').toString()
     });
@@ -99,6 +99,7 @@ exports.doLogin = function(req, res) {
     }
     if(user.password != password){
       req.flash('error', '密码错误');
+      console.log('密码错误');
       return res.redirect('/login');
     }
     req.session.user = user;
@@ -113,3 +114,19 @@ exports.logout = function(req, res) {
   req.flash('success', '退出成功');
   res.redirect('/');
 };
+
+function checkLogin(req, res, next){
+  if(!req.session.user){
+    req.flash('error','未登录');
+    return res.redirect('/login');
+  }
+  next();
+}
+
+function checkNotLogin(req,res,next){
+  if(req.session.user){
+    req.flash('error','已登录');
+    return res.redirect('/');
+  }
+  next();
+}

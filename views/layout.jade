@@ -32,16 +32,17 @@ html
                   a(href='/reg') 注册
 
     #container.container
-       #flash.container
-         - if (success)
-           .alert.alert-success= success
-         - if (error)
-            .alert alert-error= error
-
+      #flash.container
+        - if (locals.success)
+          .alert.alert-success= locals.success
+            button.close(data-dismiss='alert')&times;
+        - if (locals.error)
+          .alert.alert-error= locals.error
+            button.close(data-dismiss='alert')&times;
       block content
       hr
       footer
-        p
+        p.text-right
           a(href='http://caok1231.com', target='_blank') caok
 
   script(src='/javascripts/jquery-1.9.1.min.js')

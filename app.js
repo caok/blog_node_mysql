@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser());
 app.use(express.session({secret: 'keyboard cat'}));
 app.use(flash());
+app.use(app.router);
 
 app.use(function(req, res, next){
   res.locals.error = req.flash('error').toString();
@@ -31,8 +32,6 @@ app.use(function(req, res, next){
   res.locals.user = req.session.user ? req.session.user : null;
   next();
 });
-
-app.use(app.router);
 
 // development only
 if ('development' == app.get('env')) {
