@@ -9,7 +9,7 @@ module.exports = function (app) {
       if(err){
         articles = [];
       }
-      res.render('index',{
+      res.render('index', {
         title    : '主页',
         user     : req.session.user,
         articles : articles,
@@ -22,7 +22,12 @@ module.exports = function (app) {
   // 文章
   app.get('/article', checkLogin);
   app.get('/article', function(req, res) {
-    res.render('article', { title: '发表' });
+    res.render('article', {
+      title: '发表',
+      user     : req.session.user,
+      success  : req.flash('success').toString(),
+      error    : req.flash('error').toString()
+    });
   });
 
   app.post('/article', checkLogin);
@@ -32,7 +37,7 @@ module.exports = function (app) {
     article.save(function(err){
       if(err){
         req.flash('error', '发布失败!');
-        return res.redirect('/');
+        return res.redirect('/article');
       }
       req.flash('success', '发布成功!');
       res.redirect('/');
@@ -55,7 +60,12 @@ module.exports = function (app) {
   // 注册
   app.get('/req', checkNotLogin);
   app.get('/reg', function(req, res) {
-    res.render('reg', { title: '注册' });
+    res.render('reg', {
+      title: '注册',
+      user     : req.session.user,
+      success  : req.flash('success').toString(),
+      error    : req.flash('error').toString()
+    });
   });
 
   app.post('/req', checkNotLogin);
@@ -93,7 +103,12 @@ module.exports = function (app) {
   // 登陆
   app.get('/login', checkNotLogin);
   app.get('/login', function(req, res) {
-    res.render('login', { title: '登陆' });
+    res.render('login', {
+      title: '登陆',
+      user     : req.session.user,
+      success  : req.flash('success').toString(),
+      error    : req.flash('error').toString()
+    });
   });
 
   app.post('/login', checkNotLogin);
