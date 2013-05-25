@@ -5,6 +5,9 @@ REPORTER = list
 install:
 	@sudo npm install
 
+sql:
+	@mysql -u root -p < sql/blog.sql
+
 test:
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
     --reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
