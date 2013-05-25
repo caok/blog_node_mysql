@@ -6,7 +6,8 @@ SET time_zone = "+00:00";
 --
 -- 数据库: `blog_mysql`
 --
-create database blog default character set utf8;
+CREATE database blog default character set utf8;
+use blog;
 
 -- --------------------------------------------------------
 

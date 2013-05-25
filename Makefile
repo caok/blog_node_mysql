@@ -4,8 +4,6 @@ REPORTER = list
 
 install:
 	@sudo npm install
-
-sql:
 	@mysql -u root -p < sql/blog.sql
 
 test:
