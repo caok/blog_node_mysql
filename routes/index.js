@@ -122,7 +122,6 @@ module.exports = function (app) {
       }
       if(user.password != password){
         req.flash('error', '密码错误');
-        console.log('密码错误');
         return res.redirect('/login');
       }
       req.session.user = user;

@@ -6,6 +6,7 @@ ilib-cov
 *.out
 *.pid
 *.gz
+.cov
 
 pids
 logs
