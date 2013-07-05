@@ -51,5 +51,7 @@ server.listen(app.get('port'), function(){
 io.sockets.on('connection', function (socket) {
   console.log('Client connected...');
 
-  socket.emit('messages', { hello: 'world' });
+  socket.on('messages', function(data) {
+    console.log(data);
+  });
 });
