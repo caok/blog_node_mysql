@@ -1,6 +1,13 @@
 extends layout
 
 block content
+  script(src='/socket.io/socket.io.js')
+  script(type='text/javascript')
+    var socket = io.connect('http://localhost:3000');
+    socket.on('messages', function (data) {
+      alert(data.hello);
+    });
+
   h2= "Real time web chat"
     #content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;')
     .controls

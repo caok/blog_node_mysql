@@ -8,7 +8,8 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , flash = require('connect-flash');
+  , flash = require('connect-flash')
+  , socket = require('socket.io');
 
 var app = express();
 
@@ -40,6 +41,15 @@ if ('development' == app.get('env')) {
 
 routes(app);
 
-http.createServer(app).listen(app.get('port'), function(){
+server = http.createServer(app);
+io = socket.listen(server);
+
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+io.sockets.on('connection', function (socket) {
+  console.log('Client connected...');
+
+  socket.emit('messages', { hello: 'world' });
 });
