@@ -2,15 +2,32 @@ extends layout
 
 block content
   h2= "Real time web chat"
-    #content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;')
-    form#chat_form
-      input#chat_input(type='text')
-      input#chat_button(type='button', value='ok')
+  .row-fluid
+    .span2.well
+      h4 在线人员
+    .span10
+      #chat_content.well
+        h3 聊天内容
+        .alert
+          Best check yo self, you're not looking too good.
+          p.text-right jack
+      .input-append
+        input#chat_input.input-xxlarge(type="text")
+        button.btn#chat_button(type="button") Send
 
   script(src='/socket.io/socket.io.js')
   script(type='text/javascript')
+    //这边的url真正用时需修改为确切地址
     var socket = io.connect('http://localhost:3000');
-    $('#chat_button').click(function(){
+    $('#chat_button').click(function() {
       var message = $('#chat_input').val();
       socket.emit('messages', message);
+      insertMessage(message);
+      $('input#chat_input').val('');
     });
+    socket.on('messages', function(data) {
+      insertMessage(data);
+    });
+    function insertMessage(data){
+      $('div#chat_content').append("<div class='alert'>" + data + "</div>");
+    };

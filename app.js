@@ -52,6 +52,7 @@ io.sockets.on('connection', function (socket) {
   console.log('Client connected...');
 
   socket.on('messages', function(data) {
-    console.log(data);
+    //console.log(data);
+    socket.broadcast.emit('messages', data);
   });
 });
