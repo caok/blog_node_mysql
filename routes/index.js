@@ -3,6 +3,14 @@ var crypto  = require('crypto'),
     Article = require('../models/article.js');
 
 module.exports = function (app) {
+  app.get('/chat', function(req, res){
+    res.render('chat', {
+      title: 'chat-room',
+      success  : req.flash('success').toString(),
+      error    : req.flash('error').toString()
+    });
+  });
+
   // 主页
   app.get('/', function(req, res){
     Article.get(null, function(err, articles){

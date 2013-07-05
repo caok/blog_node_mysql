@@ -9,7 +9,8 @@
     "express": "3.2.4",
     "jade": "0.30.0",
     "mysql": "2.0.0-alpha8",
-    "connect-flash": "0.1.1"
+    "connect-flash": "0.1.1",
+    "socket.io": "0.9.16"
   },
   "devDependencies": {
     "should": "1.2.2",
